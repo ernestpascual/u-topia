@@ -7,7 +7,7 @@ import {
   useWriteContract,
   useReadContract,
 } from "wagmi";
-import { getBalance } from "@wagmi/core";
+
 import donationABI from "../abi/donationAbi.json";
 import { ChangeEvent, useState } from "react";
 import { formatEther, parseEther } from "viem";
@@ -17,9 +17,8 @@ function App() {
   const { connectors, connect } = useConnect();
   const { disconnect } = useDisconnect();
 
-  const { data: hash, isPending, writeContract } = useWriteContract();
+  const { writeContract } = useWriteContract();
   const [donationAmount, setDonationAmount] = useState("");
-  const [donator, setDonator] = useState("");
 
   const [isConnected, setIsConnected] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
@@ -33,10 +32,6 @@ function App() {
 
   const handleChangeDonation = (event: ChangeEvent<HTMLInputElement>) => {
     setDonationAmount(event.target.value);
-  };
-
-  const handleChangeDonated = (event: ChangeEvent<HTMLInputElement>) => {
-    setDonator(event.target.value);
   };
 
   return (
@@ -67,8 +62,8 @@ function App() {
           <div className="flex flex-col items-center">
             <div>Connected address: {account.address} </div>
             <h3>
-              Total donation: {formatEther(donatedAmount?.toString() || "0")}{" "}
-              ETH
+              Total donation:{" "}
+              {isUpdated && formatEther(donatedAmount?.toString() || "0")} ETH
             </h3>
             <br />
             <input
