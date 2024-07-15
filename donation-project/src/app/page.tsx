@@ -62,8 +62,8 @@ function App() {
           <div className="flex flex-col items-center">
             <div>Connected address: {account.address} </div>
             <h3>
-              Total donation:{" "}
-              {isUpdated && formatEther(donatedAmount?.toString() || "0")} ETH
+              Total donation: {formatEther(donatedAmount?.toString() || "0")}{" "}
+              ETH
             </h3>
             <br />
             <input
