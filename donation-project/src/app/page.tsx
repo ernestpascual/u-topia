@@ -23,11 +23,17 @@ function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
 
-  const { data: donatedAmount, refetch } = useReadContract({
+  const { data: donatedAmount } = useReadContract({
     address: "0x6Df5D14b042EEbA6954663221eadB8cfb609EF37",
     abi: donationABI,
     functionName: "donationInfo",
     args: [account.address],
+  });
+
+  const { data: totalDonations } = useReadContract({
+    address: "0x6Df5D14b042EEbA6954663221eadB8cfb609EF37",
+    abi: donationABI,
+    functionName: "totalDonation",
   });
 
   const handleChangeDonation = (event: ChangeEvent<HTMLInputElement>) => {
@@ -60,10 +66,17 @@ function App() {
 
         {account.status === "connected" && isConnected && (
           <div className="flex flex-col items-center">
-            <div>Connected address: {account.address} </div>
+            <div>
+              {" "}
+              <b>Connected Address:</b> {account.address}{" "}
+            </div>
+            <div>
+              <b>Total Donation:</b>{" "}
+              {formatEther(totalDonations?.toString() || "0")} ETH
+            </div>
             <h3>
-              Total donation: {formatEther(donatedAmount?.toString() || "0")}{" "}
-              ETH
+              <b>Total User Donation:</b> :{" "}
+              {formatEther(donatedAmount?.toString() || "0")} ETH
             </h3>
             <br />
             <input
